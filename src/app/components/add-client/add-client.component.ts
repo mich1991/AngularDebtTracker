@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { Client } from 'src/app/models/client';
 
@@ -26,9 +27,10 @@ export class AddClientComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // deconstruct from NgForm type.
   onSubmit({value, valid} : {value: Client; valid:Boolean|null}){
-    console.log(value)
-    console.log(valid)
+    if (this.disableBalanceOnAdd) {
+      value.balance = 0;
+    }
   }
-  
 }
