@@ -14,7 +14,7 @@ const routes: Routes = [
   {path:"register", component: RegisterComponent},
   {path:"login", component: LoginComponent},
   {path:"client/add", component:AddClientComponent},
-  {path:"client/edit", component: EditClientComponent},
+  {path:"client/edit/:id", component: EditClientComponent},
   {path:"client/:id", component: SingleClientComponent},
   {path:"settings", component: SettingsComponent},
   {path:"**", component: NotFoundComponent}

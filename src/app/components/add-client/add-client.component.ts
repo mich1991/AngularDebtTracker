@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+// import { NgForm } from '@angular/forms';
 
+
+import { FlashMessagesService } from 'flash-messages-angular';
 import { Client } from 'src/app/models/client';
+import { ClientService } from 'src/app/services/client.service';
 
 @Component({
   selector: 'app-add-client',
@@ -22,7 +26,11 @@ export class AddClientComponent implements OnInit {
 
   disableBalanceOnAdd: boolean = false;
 
-  constructor() { }
+  constructor(
+    private flashMessage : FlashMessagesService,
+    private clientService:ClientService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
   }
@@ -31,6 +39,17 @@ export class AddClientComponent implements OnInit {
   onSubmit({value, valid} : {value: Client; valid:Boolean|null}){
     if (this.disableBalanceOnAdd) {
       value.balance = 0;
+    }
+    if (!valid){
+      this.flashMessage.show('Please fill out form correctly', {
+        cssClass: 'alert-danger', timeout: 3000
+      })
+    } else {
+      this.clientService.addClient(value);
+      this.flashMessage.show('Success', {
+        cssClass: 'alert-success' , timeout: 3000
+      })
+      this.router.navigate(['/'])
     }
   }
 }

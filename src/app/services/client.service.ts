@@ -1,27 +1,35 @@
 import { Injectable } from '@angular/core';
 import {
   Firestore, addDoc, collection, collectionData,
-  doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc
+  doc, docData, CollectionReference, deleteDoc, updateDoc, DocumentReference, setDoc
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Client } from '../models/client';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ClientService {
-  clientsCollection: Client[] =[]
+  clientsCollection: CollectionReference<Client>;
   // client: Observable<Client>;
   // clients: Observable<Client[]> = []
 
 
   constructor(private firestore: Firestore) {
-
+     this.clientsCollection = collection(this.firestore, 'clients');
   }
   getClients(){
-    const clientsRef = collection(this.firestore, 'clients');
-    const clients = collectionData(clientsRef, {idField: 'id'}) as Observable<Client[]>;
+    const clients = collectionData(this.clientsCollection, {idField: 'id'}) as Observable<Client[]>;
     return clients
+  }
+  getClient(id:string){
+    const clientRef = doc(this.clientsCollection, id);
+    return docData(clientRef, {idField:'id'}) as Observable<Client>;
+  }
+  addClient(client:Client){
+    return addDoc(this.clientsCollection, client)
   }
 }
