@@ -32,4 +32,9 @@ export class ClientService {
   addClient(client:Client){
     return addDoc(this.clientsCollection, client)
   }
+  updateClient(client:Client){
+    const clientRef = doc(this.clientsCollection, client.id);
+    return setDoc(clientRef, client)    
+  }
+
 }

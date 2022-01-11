@@ -39,5 +39,11 @@ export class SingleClientComponent implements OnInit {
       } 
     })
   }
-
+  updateBalance() : void{
+    this.clientService.updateClient(this.client)
+    this.flashMessage.show('Balance updated', {
+      cssClass: 'alert-success', timeout:3000
+    })
+    this.router.navigate(['/'])
+  }
 }
