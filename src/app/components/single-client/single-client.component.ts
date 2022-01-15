@@ -30,8 +30,6 @@ export class SingleClientComponent implements OnInit {
     this.clientService.getClient(this.id).subscribe((client: Client) =>{
       this.client = client
       if(this.client === undefined){
-        this.flashMessage.show("User doesn't exist", {
-          cssClass: 'alert-danger' , timeout:3000})
         this.router.navigate(['/'])
       }
       if (this.client.balance !== undefined && this.client!.balance > 0) {
@@ -44,6 +42,13 @@ export class SingleClientComponent implements OnInit {
     this.flashMessage.show('Balance updated', {
       cssClass: 'alert-success', timeout:3000
     })
-    this.router.navigate(['/'])
+  }
+  onDeleteClick() : void {
+    if (confirm('Are you sure you want to delete this user?')){
+      this.clientService.deleteClient(this.id)
+      this.router.navigate(['/'])
+      this.flashMessage.show("User removed", {
+        cssClass: 'alert-success' , timeout:3000})
+    }
   }
 }

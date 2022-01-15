@@ -36,5 +36,9 @@ export class ClientService {
     const clientRef = doc(this.clientsCollection, client.id);
     return setDoc(clientRef, client)    
   }
+  deleteClient(id:string){
+    const clientRef = doc(this.clientsCollection, id);
+    return deleteDoc(clientRef)
+  }
 
 }
